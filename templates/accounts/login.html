@@ -1,0 +1,42 @@
+{% load static %}
+{%block content%}
+<title>News | LogIn</title>
+
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+<div class="container">
+    
+     <h1 class="form__title">Login</h1>
+     {% if request.user.is_authenticated %}
+     
+    <h4 class="alert alert-warning">
+        welcome, {{request.user.username}}, you are now logged in,
+        <hr>
+        <button  class="form__button" name="btnsignup" type="submit"><a class="text-dark" style="text-decoration: none; color:#9c9c9c;" href="{% url 'logout' %}">Logout</a></button>
+        <hr>
+        <button  class="form__button" name="btnsignup" type="submit"><a class="text-dark" style="text-decoration: none; color:#9c9c9c;" href="{% url 'index' %}">Back to News</a></button>
+
+    </h4>
+    {% else %}
+    <form class="form" id="login" method="POST">
+        {% csrf_token %} 
+        {% include 'partials/_alerts.html' %}
+     <div class="form__massage form__massage--error"></div>
+     <div class="form__input-group">
+         <input type="text" name="user" class="form__input" autofocus placeholder="Username">
+         <div class="form__input-error-massage"></div>
+     </div>
+     <div class="form__input-group">
+         <input type="password" name="pass" class="form__input" autofocus placeholder="password">
+         <div class="form__input-error-massage"></div>
+     </div>
+     <button class="form__button" name="btnlogin" type="submit">Continue</button>
+     <p class="form__text">
+         <a  class="form__link" href="{% url 'signup' %}" id="linkCreateAccount">Don't have account? Create account </a>
+     </p>
+    </form>
+    {% endif %}
+
+</div>
+
+{%endblock%}

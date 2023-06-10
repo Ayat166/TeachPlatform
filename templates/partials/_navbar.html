@@ -1,0 +1,26 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ 
+    <div class="container-fluid">
+        <a class="navbar-brand text-warning" href="{% url 'index' %}" >YA news </a>
+  
+  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+ 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    
+                {% if not request.user.is_authenticated %}
+                <button class="btn btn-outline-warning  " type="button" id="login"><a href="{% url 'login' %}" style="text-decoration: none;color:#9c9c9c;">Login</a></button>
+                {% else %}
+                <button class="btn btn-outline-warning  " type="button" id="login"><a href="{% url 'profile' %}" style="text-decoration: none;color:#9c9c9c;">Profile</a></button>
+                {% endif %}
+
+        </div>
+    </div>
+</nav>

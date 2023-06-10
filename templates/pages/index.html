@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%}Home{%endblock%}
+{%block content%}
+
+<div class="row m-3" id="newsType"> <h4>{{tobic}} : {{name}}</h4> </div>
+<div class="row me-2 ms-2" >
+{% for title, description , image , url ,newid , content in news%}
+    <div class="col-sm-12 col-md-4 col-lg-3 p-2 card" >
+        <div class="p-2">
+            <img height=matchparent width=100%  src="{{image}}"/>
+            <div>
+                <h5 class="card-title">{{title}}</h5>
+                <p class="text-muted">{{description}}</p>
+                {% if tobic == "Business" %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'newBusiness' new_id=newid %}">more</a>
+                {% elif tobic == "Sport" %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'newSport' new_id=newid %}">more</a>
+                {% elif tobic == "Technology" %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'newTechnology' new_id=newid %}">more</a>
+                {% elif tobic == "Entertainment" %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'newEntertainment' new_id=newid %}">more</a>
+                {% elif tobic == "Search" %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'newSearch' new_id=newid name=name %}">more</a>
+                {% else %}
+                <a class="text-muted btn btn-dark" name="btn" href="{% url 'new' new_id=newid %}">more</a>
+                {% endif %}
+
+
+            </div>
+
+           
+       </div>
+    </div>
+
+
+{%endfor%}
+</div>
+{%endblock%}

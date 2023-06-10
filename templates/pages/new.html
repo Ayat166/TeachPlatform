@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%}New{%endblock%}
+{%block content%}
+
+<div class="row me-2 ms-2" >
+    {% for title, description , image , url ,newid , content in news%}
+        <div class="all" style="width: 750px;">
+            <h2>Title :</h2>
+            <h5><div id="tit" class="title">{{title}}</div></h5>
+            <img id="pho" class="img" src="{{image}}" ></img>
+            <h2>Descraption :</h2>
+            <h5><div id="des" class="title">{{description}}</div></h5>
+            <h2>Content :</h2>
+            <h5><div id="con" class="title">{{content}}</div></h5>
+        </div>
+    
+    
+    {%endfor%}
+</div>
+{%endblock%}    

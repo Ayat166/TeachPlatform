@@ -1,0 +1,32 @@
+{% load static %}
+{%block content%}
+<title>News | SignUp</title>
+
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<div class="container">
+    {% include 'partials/_alerts.html' %}
+
+<form class="form" method="POST" id="createAccount">
+    {% csrf_token %} 
+    <h1 class="form__title">Create Account</h1>
+    <div class="form__massage form__massage--error"></div>
+    <div class="form__input-group">
+        <input name="username" value="{{username}}" type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
+        <div class="form__input-error-massage"></div>
+    </div>
+    <div class="form__input-group">
+        <input value="{{email}}" name="email" type="email" class="form__input" autofocus placeholder="Email Address">
+        <div class="form__input-error-massage"></div>
+    </div>
+    <div class="form__input-group">
+        <input value="{{pass}}" name="pass" type="password" id="Pass" class="form__input" autofocus placeholder="Password">
+        <div class="form__input-error-massage"></div>
+    </div>
+    <button  class="form__button" name="btnsignup" type="submit">Continue</button>
+    
+    <p class="form__text">
+        <a  class="form__link" href="{% url 'login' %}" id="linkLogin">Already have an account? Sign in </a>
+    </p>
+   </form>
+</div>
+   {%endblock%}
