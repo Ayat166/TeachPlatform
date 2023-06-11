@@ -1,12 +1,84 @@
 {% load static %}
 {%block content%}
 <title>News | SignUp</title>
+<style>
+    .wrapper{
+        display: inline-flex;
+        background: #fff;
+        height: 25px;
+        width: 370px;
+        align-items: center;
+        justify-content: space-evenly;
+        border-radius: 5px;
+        padding: 20px 15px;
+        box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+        }
+        .wrapper .option{
+        background: #fff;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 0 10px;
+        border: 2px solid lightgrey;
+        transition: all 0.3s ease;
+        }
+        .wrapper .option .dot{
+        height: 20px;
+        width: 20px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        position: relative;
+        }
+        .wrapper .option .dot::before{
+        position: absolute;
+        content: "";
+        top: 4px;
+        left: 4px;
+        width: 5px;
+        height: 5px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(1.5);
+        transition: all 0.3s ease;
+        }
+        input[type="radio"]{
+        display: none;
+        }
+        #option-1:checked:checked ~ .option-1,
+        #option-2:checked:checked ~ .option-2{
+        border-color: rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.7);
+        }
+        #option-1:checked:checked ~ .option-1 .dot,
+        #option-2:checked:checked ~ .option-2 .dot{
+        background: #fff;
+        }
+        #option-1:checked:checked ~ .option-1 .dot::before,
+        #option-2:checked:checked ~ .option-2 .dot::before{
+        opacity: 1;
+        transform: scale(1);
+        }
+        .wrapper .option span{
+        font-size: 20px;
+        color: #808080;
+        }
+        #option-1:checked:checked ~ .option-1 span,
+        #option-2:checked:checked ~ .option-2 span{
+        color: #fff;
+        }
 
+</style>
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 <div class="container">
     {% include 'partials/_alerts.html' %}
 
-<form class="form" method="POST" id="createAccount">
+<form class="form" method="POST" id="createAccount" >
     {% csrf_token %} 
     <h1 class="form__title">Create Account</h1>
     <div class="form__massage form__massage--error"></div>
@@ -14,6 +86,41 @@
         <input name="username" value="{{username}}" type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
         <div class="form__input-error-massage"></div>
     </div>
+    <div>
+        <label for="formFile" class="form-label" accept="image/png, image/jpg, image/gif, image/jpeg" style="color:rgba(0,0,0,0.7);">Profile image</label>
+        <input value="{{profile_image}}" style="cursor: pointer;border: 1px solid #ccc;display: inline-block;padding: 10px 10px;font:500 1rem 'Quicksand' , sans-serif;" class="form-control" type="file" id="signupPhoto" autofocus name="profile_image" >
+        <div class="form__input-error-massage"></div>
+    </div>
+    
+    <div>
+        <input value="{{first_name}}" type="text" id="signupfirstname" class="form__input" autofocus name="first_name" placeholder="first name">
+        <div class="form__input-error-massage"></div>
+    </div>
+    <div>
+        <input value="{{last_name}}" type="text" id="signuplastname" class="form__input" autofocus name="last_name" placeholder="last name">
+        <div class="form__input-error-massage"></div>
+    </div>
+
+
+    <div class="wrapper">
+        <input type="radio" name="select" id="option-1" checked value="{{Teacher}}">
+        <input type="radio" name="select" id="option-2" value="{{Student}}">
+          <label for="option-1" class="option option-1">
+            <div class="dot"></div>
+             <span>Student</span>
+          </label>
+          <label for="option-2" class="option option-2">
+            <div class="dot"></div>
+             <span>Teacher</span>
+          </label>
+    </div>
+
+
+
+
+
+
+
     <div class="form__input-group">
         <input value="{{email}}" name="email" type="email" class="form__input" autofocus placeholder="Email Address">
         <div class="form__input-error-massage"></div>

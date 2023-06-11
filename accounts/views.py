@@ -5,7 +5,6 @@ import re
 from django.contrib import auth
 
 from .models import Users
-
 def index(request):
     return render(request,'pages/index.html')
 
@@ -30,8 +29,12 @@ def signup(request):
         username=None
         email = None
         password=None
+        firstname = None
+        lastname = None
+        image = None
+        user_option = None
         if 'username' in request.POST:username=request.POST['username']
-        else:messages.error(request,'Error in first name')
+        else:messages.error(request,'Error in user name')
         if 'email' in request.POST:email=request.POST['email']
         else:messages.error(request,'Error in email')
         if 'pass' in request.POST:password=request.POST['pass']
@@ -49,6 +52,15 @@ def signup(request):
                                                             username=username,
                                                             password=password)
                         user.save()
+                        if 'Teacher' in request.POST :
+                           user_option = 'Teacher'
+                        else :
+                           user_option = 'Student'
+                        firstname = request.POST['first_name']
+                        lastname = request.POST['last_name']
+                        image = request.POST['profile_image']
+                        us = Users.objects.create(user=user,user_options=user_option,last_name=lastname,first_name=firstname,profile_image=image)
+                        us.save()
                         email=''
                         username=''
                         password=''
@@ -57,7 +69,7 @@ def signup(request):
                             messages.error(request,'Invaild email')
         else:
             messages.error(request,'Check empty fields') 
-        return render(request,'accounts/signup.html',{
+        return render(request,'accounts/login.html',{
             'email':email,
             'pass':password,
             'user':username,
