@@ -22,10 +22,7 @@
     <div class="form__massage form__massage--error"></div>
     <h4>welcome,  {{user.username}}</h4>
     <img src="{{profile_image.url}}" class="user">
-    <div class="form__input-group">
-        <p name="user" type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">{{user.username}}</p>
-        <div class="form__input-error-massage"></div>
-    </div>
+    <hr>
 
     <div class="form__input-group">
         <input value="{{first_name}}" name="first_name" type="text" id="first_name" class="form__input" autofocus placeholder="{{first_name}}">
@@ -35,11 +32,10 @@
         <input value="{{last_name}}" name="last_name" type="text" id="last_name" class="form__input" autofocus placeholder="{{last_name}}">
         <div class="form__input-error-massage"></div>
     </div>
+    <hr>
     <button  class="form__button" name="btnsave" type="submit">Save Changes</button>
     <hr>
     <button  class="form__button" type="submit"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'logout' %}">Logout</a></button>
-    <hr>
-    <button  class="form__button" type="submit"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'index' %}">Back to News</a></button>
    </form>
    {%else%}
    <h4 class="alert alert-danger">

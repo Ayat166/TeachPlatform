@@ -89,14 +89,13 @@ def logout(requset):
 def profile(request):
     if request.method == 'POST' and 'btnsave' in request.POST:
         if request.user is not None and request.user.id != None:
-            if request.POST['pass']:
-                if not request.POST['pass'].startswith('pbkdf2_sha256$'):
-                    request.user.set_password(request.POST['pass']) 
-                request.user.save()
-                auth.login(request, request.user)
-                messages.success(request,'your data has been saved')
-            else:
-                messages.error(request,'check your values')
+            user = get_object_or_404(Users,user=request.user)
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.save()
+            messages.success(request,'your data has been saved')
+        else:
+            messages.error(request,'check your values')
         return redirect('profile')
     else:
         if request.user is not None :
