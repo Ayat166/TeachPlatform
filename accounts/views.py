@@ -8,7 +8,7 @@ from .models import Users
 def index(request):
     return render(request,'pages/index.html')
 
-
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def login(request):
@@ -102,8 +102,12 @@ def profile(request):
         if request.user is not None :
             context=None
             if not request.user.is_anonymous:
+                user = get_object_or_404(Users,user=request.user)
                 context={
-                   'pass':request.user.password
+                   'pass':request.user.password,
+                   'first_name':user.first_name,
+                   'last_name':user.last_name,
+                   'profile_image':user.profile_image,
                 }
             return render(request,'accounts/profile.html',context)
         else:
