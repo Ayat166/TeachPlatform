@@ -58,7 +58,7 @@ def signup(request):
                            user_option = 'Student'
                         firstname = request.POST['first_name']
                         lastname = request.POST['last_name']
-                        image = request.POST['profile_image']
+                        image = request.FILES.get('profile_image')
                         us = Users.objects.create(user=user,user_options=user_option,last_name=lastname,first_name=firstname,profile_image=image)
                         us.save()
                         email=''

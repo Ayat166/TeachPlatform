@@ -78,7 +78,7 @@
 <div class="container">
     {% include 'partials/_alerts.html' %}
 
-<form class="form" method="POST" id="createAccount" >
+<form class="form" method="POST" id="createAccount" enctype="multipart/form-data">
     {% csrf_token %} 
     <h1 class="form__title">Create Account</h1>
     <div class="form__massage form__massage--error"></div>
