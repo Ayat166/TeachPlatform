@@ -52,14 +52,11 @@ def signup(request):
                                                             username=username,
                                                             password=password)
                         user.save()
-                        if 'Teacher' in request.POST :
-                           user_option = 'Teacher'
-                        else :
-                           user_option = 'Student'
+                        user_type = request.POST['user_type']
                         firstname = request.POST['first_name']
                         lastname = request.POST['last_name']
                         image = request.FILES.get('profile_image')
-                        us = Users.objects.create(user=user,user_options=user_option,last_name=lastname,first_name=firstname,profile_image=image)
+                        us = Users.objects.create(user=user,user_options=user_type,last_name=lastname,first_name=firstname,profile_image=image)
                         us.save()
                         email=''
                         username=''
