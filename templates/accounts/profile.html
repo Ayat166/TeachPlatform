@@ -10,18 +10,24 @@
       
         object-fit: cover;
       }
+      .user:hover {
+        transform: scale(1.05);
+      }
 </style>
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 <div class="container">
     {% include 'partials/_alerts.html' %}
     {% if request.user.is_authenticated%}
 
-<form class="form" method="POST" id="createAccount">
+<form class="form" method="POST" id="createAccount" enctype="multipart/form-data">
     {% csrf_token %} 
     <h1 class="form__title">Profile</h1>
     <div class="form__massage form__massage--error"></div>
     <h4>welcome,  {{user.username}}</h4>
-    <img src="{{profile_image.url}}" class="user">
+    <label for="id_profile_image">
+        <img src="{{profile_image.url}}" class="user">
+        <input type="file" name="profile_image" id="id_profile_image" style="display: none;">
+    </label>
     <hr>
 
     <div class="form__input-group">

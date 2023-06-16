@@ -89,6 +89,7 @@ def profile(request):
             user = get_object_or_404(Users,user=request.user)
             user.first_name = request.POST['first_name']
             user.last_name = request.POST['last_name']
+            user.profile_image = request.FILES.get('profile_image')
             user.save()
             messages.success(request,'your data has been saved')
         else:
