@@ -1,10 +1,33 @@
 {% load static %}
+<style>
+    form {
+        display: flex;
+        align-items: center;
+        margin: 0 20px;
+    }
+    input[type="text"] {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    .input-group-text {
+        background-color: #ffc107;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+    .fa-search {
+        color: white;
+    }
 
+</style>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
  
     <div class="container-fluid">
-        <a class="navbar-brand text-warning" href="{% url 'index' %}" >YA news </a>
-  
+        <a class="navbar-brand text-warning" style ="color: red;" href="{% url 'index' %}" >Platento  </a>
   
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -12,15 +35,19 @@
         <span class="navbar-toggler-icon"></span>
         </button>
  
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-    
-                {% if not request.user.is_authenticated %}
-                <button class="btn btn-outline-warning  " type="button" id="login"><a href="{% url 'login' %}" style="text-decoration: none;color:#9c9c9c;">Login</a></button>
-                {% else %}
-                <button class="btn btn-outline-warning  " type="button" id="login"><a href="{% url 'profile' %}" style="text-decoration: none;color:#9c9c9c;">Profile</a></button>
-                {% endif %}
-
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+            <div class="search-container">
+                <form action="#">
+                  <input type="text" placeholder="Search.." name="search">
+                  <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+              </div>
+                
+            {% if not request.user.is_authenticated %}
+            <button class="btn btn-outline-warning" type="button" id="login"><a href="{% url 'login' %}" style="text-decoration: none;color:#9c9c9c;">Login</a></button>
+            {% else %}
+            <button class="btn btn-outline-warning" type="button" id="login"><a href="{% url 'profile' %}" style="text-decoration: none;color:#9c9c9c;">Profile</a></button>
+            {% endif %}
         </div>
     </div>
 </nav>
