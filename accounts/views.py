@@ -105,8 +105,10 @@ def profile(request):
                    'first_name':user.first_name,
                    'last_name':user.last_name,
                    'profile_image':user.profile_image,
+                   'user_options': user.user_options
                 }
             return render(request,'accounts/profile.html',context)
         else:
             return redirect('profile')
+        
     

@@ -1,10 +1,47 @@
-{% extends 'base.html' %}
+{% load static %}
+<html>
+<head>
+  <style>
+    .my-form input[type="text"]{
+      display: block;
+    width: 100%;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    border: 1px solid #dddddd;
+    outline: none;
+    background: #eeeeee;
+    transition: background 0.2s, border-color 0.2s;
+    }
+    .my-form input[type="file"] {
+      cursor: pointer;
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 10px 10px;
+      font:500 1rem 'Quicksand' , sans-serif;
+    }
 
+  </style>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <title>Platento | Upload Vedio</title>
+</head>
 {% block content %}
-  <h1>Upload Video</h1>
-  <form method="post" enctype="multipart/form-data">
+  <div class="container">
+  <form method="post" enctype="multipart/form-data" class="form my-form">
+    <h1 class="form__title">Upload Video</h1>
+
+    <div class="form__massage form__massage--error"></div>
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <label for="{{ form.title.id_for_label }}">Title</label>
+    {{ form.title }}
+    <label for="{{ form.description.id_for_label }}">Description</label>
+    {{ form.description }}
+    <label for="{{ form.file.id_for_label }}" >Video File</label>
+    {{ form.file }}
+    <hr>
+    
+    <button class="form__button"  type="submit">Upload</button>
   </form>
+</div>
 {% endblock %}
+</html>
