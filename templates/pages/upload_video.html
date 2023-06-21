@@ -27,6 +27,8 @@
 </head>
 {% block content %}
   <div class="container">
+    {% include 'partials/_alerts.html' %}
+    {% if request.user.is_authenticated%}
   <form method="post" enctype="multipart/form-data" class="form my-form">
     <h1 class="form__title">Upload Video</h1>
 
@@ -42,6 +44,11 @@
     
     <button class="form__button"  type="submit">Upload</button>
   </form>
+  {%else%}
+   <h4 class="alert alert-danger">
+       You must <a href="{% url 'login' %}" class="text-dark"> Sign In </a>
+   <h4>
+   {%endif%}
 </div>
-{% endblock %}
 </html>
+{% endblock %}

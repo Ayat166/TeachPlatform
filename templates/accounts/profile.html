@@ -1,6 +1,6 @@
 {% load static %}
 {%block content%}
-<title>News | Profile</title>
+<title>Platento | Profile</title>
 <style>
     .user {
         display: inline-block;
@@ -46,6 +46,8 @@
    <hr>
         {%if user_options == "Teacher" %}
         <button  class="form__button" type="submit"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'upload_video' %}">Upload Video</a></button>
+        <hr>
+        <button  class="form__button" type="submit"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'videos' %}">Your Videos</a></button>
         {%endif%}
    {%else%}
    <h4 class="alert alert-danger">
