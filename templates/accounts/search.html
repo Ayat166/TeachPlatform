@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%}Search{%endblock%}
+{% block content %}
+<h1>Search Users</h1><h2>Results</h2>
+<style>
+    .username-link {
+        font-weight: bold;
+        color: #212529;
+        text-decoration: none;
+        margin-left: 20px;
+        font-style: italic;
+      }
+      
+    .user-email {
+        margin-left: 10px;
+        color: #6c757d;
+        font-style: italic;
+    }
+      
+      .username-link:hover {
+        text-decoration: none;
+      }
+      .user {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+      
+        object-fit: cover;
+      }
+      .user:hover {
+        transform: scale(1.02);
+      }
+
+</style>
+
+
+{% if users %}
+<hr>
+  
+  <ul>
+    {% for user in users %}
+        <div class="all" style="width: 750px;">
+            <label for="id_profile_image">
+                {% if user.users.profile_image %}
+                <a href="{% url 'profileuser' user.id %}" class="username-link"><img src="{{user.users.profile_image.url}}" class="user"><h2>~{{ user.username }} |</h2></a>
+                {% else %}
+                <a href="{% url 'profileuser' user.id %}" class="username-link"><img src="{% static 'image\default-profile-photo.png' %}" class="user"><h2>~{{ user.username }} |</h2></a>
+                {% endif %}  
+            </label>
+            <span class="user-email">{{ user.email }}</span>
+            <span class="user-email">{{ user.users.user_options }}</span>
+          
+        </div>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No users found</p>
+{% endif %}
+
+{% endblock %}

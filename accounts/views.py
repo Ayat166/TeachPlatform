@@ -10,6 +10,26 @@ def index(request):
 
 from django.shortcuts import get_object_or_404
 
+def profileuser(request, user_id):
+    user_profile = get_object_or_404(Users, user_id=user_id)
+    return render(request, 'accounts/profileuser.html', {'user': user_profile})
+
+
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
+
+def search(request):
+    if 'search' in request.GET:
+        search_query = request.GET['search']
+        User = get_user_model()
+        users = User.objects.filter(username__icontains=search_query)
+    else:
+        users = []
+    return render(request, 'accounts/search.html', {'users': users})
+
+
+
+
 # Create your views here.
 def login(request):
     if request.method == 'POST' and 'btnlogin' in request.POST:

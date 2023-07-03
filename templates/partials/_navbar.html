@@ -37,11 +37,11 @@
  
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
             <div class="search-container">
-                <form action="#">
-                  <input type="text" placeholder="Search.." name="search">
-                  <button type="submit"><i class="fa fa-search"></i></button>
+                <form method="get" action="{% url 'search' %}">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
-              </div>
+            </div>
                 
             {% if not request.user.is_authenticated %}
             <button class="btn btn-outline-warning" type="button" id="login"><a href="{% url 'login' %}" style="text-decoration: none;color:#9c9c9c;">Login</a></button>
