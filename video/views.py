@@ -37,3 +37,31 @@ def videos(request):
         return render(request,'pages/videos.html',context)
     else:
         return redirect('videos')
+    
+def videosuser(request,id):
+    if request.user is not None :
+        context=None
+        if not request.user.is_anonymous:
+            user = get_object_or_404(Users, user_id=id)
+            videos = Video.objects.filter(uploaded_by=user)
+            context={
+                'videos': videos
+            }
+        return render(request,'pages/videos.html',context)
+    else:
+        return redirect('videos')
+    
+def video(request,id):
+    if request.user is not None :
+        context=None
+        if not request.user.is_anonymous:
+            video = get_object_or_404(Video, id=id)
+            user = get_object_or_404(Users, user=video.uploaded_by.user)
+            context={
+                'video': video,
+                'user':user
+            }
+        return render(request,'pages/video.html',context)
+    else:
+        return redirect('video')
+    

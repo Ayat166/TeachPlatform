@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 import re
 from django.contrib import auth
-
+from video.models import Video
 from .models import Users
 def index(request):
     return render(request,'pages/index.html')
@@ -23,9 +23,11 @@ def search(request):
         search_query = request.GET['search']
         User = get_user_model()
         users = User.objects.filter(username__icontains=search_query)
+        videos = Video.objects.filter(title=search_query)
     else:
         users = []
-    return render(request, 'accounts/search.html', {'users': users})
+        videos = []
+    return render(request, 'accounts/search.html', {'users': users,'videos':videos})
 
 
 

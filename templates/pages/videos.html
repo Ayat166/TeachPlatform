@@ -4,6 +4,7 @@
 {%block content%}
 
 <div class="row me-2 ms-2" >
+    {% if videos%}
     {% for vedio in videos%}
         <div class="all" style="width: 750px;">
             <h2>Title :</h2>
@@ -17,5 +18,9 @@
     
     
     {%endfor%}
+    {% else %}
+    <h2>NO Videos Yet</h2>
+    {% endif %}
+
 </div>
 {%endblock%}    

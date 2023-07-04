@@ -35,7 +35,7 @@
 </style>
 
 
-{% if users %}
+{% if users or videos %}
 <hr>
   
   <ul>
@@ -50,6 +50,13 @@
             </label>
             <span class="user-email">{{ user.email }}</span>
             <span class="user-email">{{ user.users.user_options }}</span>
+          
+        </div>
+    {% endfor %}
+    {% for video in videos %}
+        <div class="all" style="width: 750px;">
+
+          <a href="{% url 'video' video.id %}" class="username-link"><span class="user-email">{{ video.title }}</span></a>
           
         </div>
     {% endfor %}
