@@ -2,7 +2,7 @@
 {% load static %}
 {%block title%}Search{%endblock%}
 {% block content %}
-<h1>Search Users</h1><h2>Results</h2>
+
 <style>
     .username-link {
         font-weight: bold;
@@ -36,6 +36,9 @@
 
 
 {% if users or videos %}
+{% if users %}
+<h1>Search Users</h1><h2>Results</h2>
+{% endif %}
 <hr>
   
   <ul>
@@ -53,8 +56,14 @@
           
         </div>
     {% endfor %}
+    {% if videos%}
+    <h1>Search videos</h1><h2>Results</h2>
+    {% endif %}
     {% for video in videos %}
         <div class="all" style="width: 750px;">
+          <video width="300" height="200" controls>
+            <source src="{{ video.file.url }}" type="video/mp4">
+          </video>
 
           <a href="{% url 'video' video.id %}" class="username-link"><span class="user-email">{{ video.title }}</span></a>
           
