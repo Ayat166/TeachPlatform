@@ -1,11 +1,22 @@
 from django.shortcuts import render ,redirect
 from .models import Follow ,Users
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 # Create your views here.
-def follow(requset,id):
-    if requset.user.is_authenticated:
+def follow(request,id):
+    if request.user.is_authenticated:
         followed = get_object_or_404(Users,user_id=id)
-        follow = Follow.objects.create(following=requset.user.users,followed=followed)
+        if followed.user_options == "Teacher":
+            if request.user != followed.user:
+                follow = Follow.objects.filter(following=request.user.users,followed=followed)
+                if not follow:
+                    follow = Follow.objects.create(following=request.user.users,followed=followed)
+                else:
+                    messages.error( request,f"You already follow {followed.user.username}")
+            else:
+                messages.error( request,'You Cannot follow Youself')
+        else:
+           messages.error( request,'You Cannot follow Student')
     return redirect("index")
 

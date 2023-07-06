@@ -44,7 +44,8 @@
         {% endif %}  
         
     </label>
-    <span style="font-style: italic;">{%if user.user_options == "Teacher" %}Mr :{% else %}St :  {%endif%}{{ user.user.username }}  </span><button id="follow-button"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'follow' user.user.id%}">+ Follow</a></button>	
+    <span style="font-style: italic;">{%if user.user_options == "Teacher" %}Mr :{% else %}St :  {%endif%}{{ user.user.username }}  </span>
+    {% if user.user_options == "Teacher" and user.user != request.user %}<button id="follow-button"><a class="text-dark" style="text-decoration: none; color:#FFFFFF;" href="{% url 'follow' user.user.id%}">+ Follow</a></button>{% endif %}	
     <hr>
 
     <div class="form__input-group">
