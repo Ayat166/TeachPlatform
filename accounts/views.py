@@ -6,13 +6,23 @@ from django.contrib import auth
 from video.models import Video
 from .models import Users 
 from follow.models import Follow
-def index(request):
-    return render(request,'pages/index.html')
-
 from django.shortcuts import get_object_or_404
 
+def index(request):
+    videos=[]
+    if request.user.is_authenticated:
+        user = get_object_or_404(Users,user=request.user)
+        followed = Follow.objects.filter(following=user).order_by('id')[:5]
+        for follow in followed:
+            users = Users.objects.filter(user=follow.followed.user).order_by('id')[:5]
+            for user in users:
+                video = Video.objects.filter(uploaded_by=user).order_by('id')[:5]
+                videos.extend(video)
+    return render(request, 'pages/index.html', {'videos': videos})
+
+
 def profileuser(request, user_id):
-    if request.user.users.id == user_id:
+    if request.user.id == user_id:
         return redirect('profile')
     else:
         user_profile = get_object_or_404(Users, user_id=user_id)

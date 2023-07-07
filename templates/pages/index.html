@@ -36,7 +36,7 @@
 			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 			margin: 20px;
 			padding: 20px;
-			width: 300px;
+			width: 1000px;
 		}
 		article h2 {
 			margin-top: 0;
@@ -44,7 +44,20 @@
 		article p {
 			margin-bottom: 0;
 		}
-
+		.cont img{
+			background-size: cover; /* to make the image cover the entire container */
+            display: flex; /* to make the container a flex container */
+            align-items: center; /* to vertically center the content */
+            justify-content: center;
+			height: 100vh;
+		}
+		.user {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+		  
+			object-fit: cover;
+		  }
 	</style>
 </head>
 <body>
@@ -52,25 +65,42 @@
 		<h1>Platento Teaching Platform</h1>
 		<p>Welcome to our online teaching platform!</p>
 	</header>
-	
+	{% if request.user.is_authenticated %}
+	<hr>
+	{% if videos %}
+	   <h2>Recommended<h2>
+	{% else %}
+	<h2>Follow Teacher To See their lessons<h2>
+		<div class="cont">
+			<img src="{% static 'image\logo.jpeg' %}" alt="logo" width='1510px' height='1000px'>
+		</div>
+	{% endif %}
+	{% for video in videos %}
 	<section>
 		<article>
-			<h2>Course 1</h2>
-			<p>Description of course 1.</p>
-			<a href="#">Learn more</a>
-		</article>
-		<article>
-			<h2>Course 2</h2>
-			<p>Description of course 2.</p>
-			<a href="#">Learn more</a>
-		</article>
-		<article>
-			<h2>Course 3</h2>
-			<p>Description of course 3.</p>
-			<a href="#">Learn more</a>
+			<a href="{% url 'video' video.id %}" class="username-link"><span class="user-email">{{ video.title }}</span></a>
+			<hr>
+			<video width="320" height="240" controls>
+                <source src="{{ video.file.url }}" type="video/mp4">
+              </video>
+			  <hr>
+
+			<label for="id_profile_image">
+                {% if video.uploaded_by.profile_image %}
+                <a href="{% url 'profileuser' video.uploaded_by.user.id %}" class="username-link"><img src="{{video.uploaded_by.profile_image.url}}" class="user"><h2>~{{video.uploaded_by.user.username}} |</h2></a>
+                {% else %}
+                <a href="{% url 'profileuser' video.uploaded_by.user.id %}" class="username-link"><img src="{% static 'image\default-profile-photo.png' %}" class="user"><h2>~{{ video.uploaded_by.user.username }} |</h2></a>
+                {% endif %}  
+            </label>
+			
 		</article>
 	</section>
-	
+	{% endfor %}
+	{% else %}
+	<div class="cont">
+		<img src="{% static 'image\logo.jpeg' %}" alt="logo" width='1510px' height='1000px'>
+	</div>
+	{% endif %}
 </body>
 </html>
 
