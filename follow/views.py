@@ -12,11 +12,20 @@ def follow(request,id):
                 follow = Follow.objects.filter(following=request.user.users,followed=followed)
                 if not follow:
                     follow = Follow.objects.create(following=request.user.users,followed=followed)
+                    follow.save()
                 else:
                     messages.error( request,f"You already follow {followed.user.username}")
             else:
                 messages.error( request,'You Cannot follow Youself')
         else:
            messages.error( request,'You Cannot follow Student')
-    return redirect("index")
+    return redirect('profileuser', user_id=id)
 
+
+def unfollow(request,id):
+    if request.user.is_authenticated:
+        followed = get_object_or_404(Users,user_id=id)
+        follow = Follow.objects.filter(following=request.user.users,followed=followed)
+        if follow:
+           follow.delete()
+    return redirect('profileuser', user_id=id)

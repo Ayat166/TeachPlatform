@@ -4,15 +4,23 @@ from django.contrib.auth.models import User
 import re
 from django.contrib import auth
 from video.models import Video
-from .models import Users
+from .models import Users 
+from follow.models import Follow
 def index(request):
     return render(request,'pages/index.html')
 
 from django.shortcuts import get_object_or_404
 
 def profileuser(request, user_id):
-    user_profile = get_object_or_404(Users, user_id=user_id)
-    return render(request, 'accounts/profileuser.html', {'user': user_profile})
+    if request.user.users.id == user_id:
+        return redirect('profile')
+    else:
+        user_profile = get_object_or_404(Users, user_id=user_id)
+        follow = Follow.objects.filter(following=request.user.users,followed=user_profile)
+        followed = False
+        if follow :
+            followed = True
+        return render(request, 'accounts/profileuser.html', {'user': user_profile,'follow':followed})
 
 
 from django.shortcuts import render
