@@ -26,11 +26,14 @@ def profileuser(request, user_id):
         return redirect('profile')
     else:
         user_profile = get_object_or_404(Users, user_id=user_id)
-        follow = Follow.objects.filter(following=request.user.users,followed=user_profile)
-        followed = False
-        if follow :
-            followed = True
-        return render(request, 'accounts/profileuser.html', {'user': user_profile,'follow':followed})
+        if request.user.is_authenticated: 
+            follow = Follow.objects.filter(following=request.user.users,followed=user_profile)
+            followed = False
+            if follow :
+                followed = True
+            return render(request, 'accounts/profileuser.html', {'user': user_profile,'follow':followed})
+        else :
+            return render(request, 'accounts/profileuser.html', {'user': user_profile,'follow':False})
 
 
 from django.shortcuts import render

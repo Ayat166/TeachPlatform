@@ -19,6 +19,8 @@ def follow(request,id):
                 messages.error( request,'You Cannot follow Youself')
         else:
            messages.error( request,'You Cannot follow Student')
+    else:
+        messages.error( request,'You Should Login')
     return redirect('profileuser', user_id=id)
 
 

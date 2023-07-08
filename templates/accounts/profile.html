@@ -22,7 +22,7 @@
 <form class="form" method="POST" id="createAccount" enctype="multipart/form-data">
     {% csrf_token %} 
     <h1 class="form__title">Profile</h1>
-    <div class="form__massage form__massage--error"></div>
+    <div class="form__massage form__massage--error" class="alert alert-danger" ></div>
     <h4>welcome,  {{user.username}}</h4>
     <label for="id_profile_image">
         {% if profile_image %}

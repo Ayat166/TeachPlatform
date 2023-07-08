@@ -4,6 +4,7 @@
 {%block content%}
 
 <div class="row me-2 ms-2" >
+    {% if request.user.is_authenticated %}
     {% if videos%}
     {% for vedio in videos%}
         <div class="all" style="width: 750px;">
@@ -21,6 +22,11 @@
     {% else %}
     <h2>NO Videos Yet</h2>
     {% endif %}
+    {%else%}
+   <h4 class="alert alert-danger">
+       You must <a href="{% url 'login' %}" class="text-dark"> Sign In </a>
+   <h4>
+   {%endif%}
 
 </div>
 {%endblock%}    
