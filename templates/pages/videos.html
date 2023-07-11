@@ -9,7 +9,7 @@
     {% for vedio in videos%}
         <div class="all" style="width: 750px;">
             <h2>Title :</h2>
-            <h5><div id="tit" class="title">{{vedio.title}}</div></h5>
+            <h5><div id="tit" class="title"><a href="{% url 'video' vedio.id %}" class="username-link">{{ vedio.title }}</a></div></h5>
             <video width="320" height="240" controls>
                 <source src="{{ vedio.file.url }}" type="video/mp4">
               </video>

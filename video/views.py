@@ -65,3 +65,10 @@ def video(request,id):
     else:
         return redirect('video')
     
+def deletevideo(request,id):
+    if request.user.is_authenticated:
+        user= get_object_or_404(Users,user=request.user)
+        video = Video.objects.filter(uploaded_by=user,id=id)
+        if video:
+           video.delete()
+    return redirect('videos')
