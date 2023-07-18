@@ -5,6 +5,17 @@
 
 <div class="row me-2 ms-2" >
     {% if request.user.is_authenticated %}
+    {% if groups %}
+    <h1>Groups</h1>
+    <ul>
+    {% for group in groups %}
+        <li><a href="{% url 'group_detail' pk=group.pk %}">{{ group.name }}</a></li>
+    {% empty %}
+        <li>No groups yet.</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <a href="{% url 'group_create' %}">Create a new group</a>
     {% if videos%}
     {% for vedio in videos%}
         <div class="all" style="width: 750px;">

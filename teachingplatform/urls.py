@@ -21,7 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('video/',include('video.urls')),
-    path('follow/',include('follow.urls'))
+    path('follow/',include('follow.urls')),
+    path('group/',include('group.urls')),
+    
 ]
 if settings.DEBUG:
     urlpatterns.extend(

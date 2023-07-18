@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ group.name }}</h1>
+    <p>{{ group.description }}</p>
+    <h2>Videos</h2>
+    <ul>
+    {% for video in group.videos.all %}
+        <li>{{ video.title }}</li>
+    {% empty %}
+        <li>No videos yet.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
