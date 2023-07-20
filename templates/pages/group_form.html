@@ -5,19 +5,6 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <div class="form-group">
-            <label for="{{ form.image.id_for_label }}">Image:</label>
-            {{ form.image }}
-        </div>
-        <div class="form-group">
-            <label>Videos:</label>
-            {% for video in form.videos %}
-                <div class="form-check">
-                    {{ video }}
-                    <label class="form-check-label" for="{{ video.id_for_label }}">{{ video.choice_label }}</label>
-                </div>
-            {% endfor %}
-        </div>
         <button type="submit">Save</button>
     </form>
 {% endblock %}

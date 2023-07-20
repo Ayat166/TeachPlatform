@@ -12,34 +12,49 @@ def group_list(request):
 
 @login_required
 def group_detail(request, pk):
-    group = Group.objects.get(pk=pk)
-    return render(request, 'pages/group_detail.html', {'group': group})
+    group = get_object_or_404(Group, pk=pk)
+    user = get_object_or_404(Users, user=group.user.user)
+    return render(request, 'pages/group_detail.html', {'group': group,'user':user})
 
 @login_required
 def group_create(request):
+    user = get_object_or_404(Users, user=request.user)
     if request.method == 'POST':
-        form = GroupForm(request.POST)
+        form = GroupForm(request.POST, request.FILES,filter_video=user)
         if form.is_valid():
-            user= get_object_or_404(Users,user=request.user)
             group = form.save(commit=False)
             group.user = user
             group.save()
+            form.save_m2m()  # Save the many-to-many relationships for the videos field
             return redirect('group_detail', pk=group.pk)
     else:
-        form = GroupForm()
+        form = GroupForm(filter_video=user)
     return render(request, 'pages/group_form.html', {'form': form})
+
 
 @login_required
 def group_edit(request, pk):
     group = Group.objects.get(pk=pk)
+    user= get_object_or_404(Users,user=request.user)
     if request.method == 'POST':
-        form = GroupForm(request.POST, instance=group)
+        form = GroupForm(request.POST, request.FILES, instance=group, filter_video=user)
         if form.is_valid():
             group = form.save(commit=False)
-            user= get_object_or_404(Users,user=request.user)
             group.user = user
             group.save()
+            form.save_m2m()
             return redirect('group_detail', pk=group.pk)
     else:
-        form = GroupForm(instance=group)
+        form = GroupForm(instance=group, filter_video=user)
     return render(request, 'pages/group_form.html', {'form': form})
+
+
+@login_required
+def group_delete(request, pk):
+    if request.user.is_authenticated:
+        group = get_object_or_404(Group, pk=pk)
+        if request.method == 'POST':
+            group.delete()
+            return redirect('group_list')
+        
+    return redirect('videos')
