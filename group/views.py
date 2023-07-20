@@ -4,11 +4,6 @@ from .models import Video, Group , Users
 from .forms import GroupForm
 from django.shortcuts import get_object_or_404
 
-@login_required
-def group_list(request):
-    user= get_object_or_404(Users,user=request.user)
-    groups = Group.objects.filter(user=user)
-    return render(request, 'pages/videos.html', {'groups': groups})
 
 @login_required
 def group_detail(request, pk):
@@ -55,6 +50,6 @@ def group_delete(request, pk):
         group = get_object_or_404(Group, pk=pk)
         if request.method == 'POST':
             group.delete()
-            return redirect('group_list')
+            return redirect('videos')
         
     return redirect('videos')

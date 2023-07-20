@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from .models import Users
 from django.contrib import messages
 from .models import Video
+from group.models import Group
 
 def upload_video(request):
     if request.method == 'POST':
@@ -31,8 +32,11 @@ def videos(request):
         if not request.user.is_anonymous:
             user= get_object_or_404(Users,user=request.user)
             videos = Video.objects.filter(uploaded_by=user)
+            groups = Group.objects.filter(user=user)
             context={
-                'videos': videos
+                'videos': videos,
+                'groups':groups,
+                'user':user
             }
         return render(request,'pages/videos.html',context)
     else:
@@ -44,8 +48,11 @@ def videosuser(request,id):
         if not request.user.is_anonymous:
             user = get_object_or_404(Users, user_id=id)
             videos = Video.objects.filter(uploaded_by=user)
+            groups = Group.objects.filter(user=user)
             context={
-                'videos': videos
+                'videos': videos,
+                'user':user,
+                'groups':groups,
             }
         return render(request,'pages/videos.html',context)
     else:

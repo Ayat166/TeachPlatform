@@ -2,41 +2,130 @@
 {% load static %}
 {%block title%}Videos{%endblock%}
 {%block content%}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #ffc107a3;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    h2 {
+        margin-left: 10px;
+        text-align: left;
+        display: inline; 
+    }
 
+    section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+    }
+    article {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 100px;
+        padding: 20px;
+        width: 1000px;
+    }
+    article h2 {
+        margin-top: 0;
+    }
+    article p {
+        margin-bottom: 0;
+    }
+    .cont img{
+        background-size: cover; /* to make the image cover the entire container */
+        display: flex; /* to make the container a flex container */
+        align-items: center; /* to vertically center the content */
+        justify-content: center;
+        height: 100vh;
+    }
+    .user {
+        margin-left: 120px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: inline;
+        margin-top: 50px;
+      }
+      .user2 {
+        margin: 20px;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        display: inline;
+      }
+</style>
 <div class="row me-2 ms-2" >
     {% if request.user.is_authenticated %}
-    {% if groups %}
-    <h1>Groups</h1>
-    <ul>
-    {% for group in groups %}
-        <li><a href="{% url 'group_detail' pk=group.pk %}">{{ group.name }}</a></li>
-    {% empty %}
-        <li>No groups yet.</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-    <a href="{% url 'group_create' %}">Create a new group</a>
-    {% if videos%}
-    {% for vedio in videos%}
-        <div class="all" style="width: 750px;">
-            <h2>Title :</h2>
-            <h5><div id="tit" class="title"><a href="{% url 'video' vedio.id %}" class="username-link">{{ vedio.title }}</a></div></h5>
-            <video width="320" height="240" controls>
-                <source src="{{ vedio.file.url }}" type="video/mp4">
-              </video>
-            <h2>Descraption :</h2>
-            <h5><div id="des" class="title">{{vedio.description}}</div></h5>
-        </div>
+    <ln>
+        <label for="id_profile_image">
+            {% if user.profile_image %}
+            <a href="{% url 'profileuser' user.user.id %}" class="username-link"><img src="{{user.profile_image.url}}" class="user"><h2>{{user.user.username}} </h2></a>
+            {% else %}
+            <a href="{% url 'profileuser' user.user.id %}" class="username-link"><img src="{% static 'image\default-profile-photo.png' %}" class="user"><h2>{{ user.user.username }} </h2></a>
+            {% endif %}  
+        </label>
+        {% if groups %}
+        
+        <section>
+            
+            <article>
+                <h1>Groups</h1>
+                {% for group in groups %}
+                {% if group.image %}
+                    <a href="{% url 'group_detail' pk=group.id %}" class="username-link"><img src="{{group.image.url}}" class="user2"></a>
+                {% else %}
+                    <a href="{% url 'group_detail' pk=group.id %}" class="username-link"><img src="{% static 'image\STACKED.jpg' %}" class="user2"></a>
+                {% endif %}
+                    <a href="{% url 'group_detail' pk=group.pk %}">{{ group.name }}</a>
+                   <br>
+
+                {% empty %}
+                    <li>No groups yet.</li>
+                {% endfor %}
+            
+        {% endif %}
+        {% if request.user == user.user%}
+        <hr>
+        <a href="{% url 'group_create' %}">Create a new group</a>
+        {% endif %}
+    </section></article>
     
-    
-    {%endfor%}
-    {% else %}
-    <h2>NO Videos Yet</h2>
-    {% endif %}
+        {% if videos %}
+           
+            <section>
+                <article>    
+                    <h1>Videos</h1>
+            {% for vedio in videos%}
+                
+                        <video width="320" height="240" controls>
+                            <source src="{{ vedio.file.url }}" type="video/mp4">
+                        </video>
+                        <h5><div ><a href="{% url 'video' vedio.id %}" class="username-link">{{ vedio.title }}</a></div></h5>
+                        <hr>
+                
+                {%endfor%}
+           
+            {% else %}
+        <h2>NO Videos Yet</h2>
+        {% endif %}
+        {% if request.user == user.user %}
+        <a href="{% url 'upload_video' %}">Add new Video</a>
+        {% endif %}
+    </section></article>
     {%else%}
-   <h4 class="alert alert-danger">
-       You must <a href="{% url 'login' %}" class="text-dark"> Sign In </a>
-   <h4>
+        <h4 class="alert alert-danger">
+            You must <a href="{% url 'login' %}" class="text-dark"> Sign In </a>
+        <h4>
    {%endif%}
 
 </div>
