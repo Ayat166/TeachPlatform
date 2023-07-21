@@ -1,16 +1,172 @@
 {% extends 'base.html' %}
 {% load static %}
+{%block title%}Group{%endblock%}
+{% block content %}
 
 <html>
 <head>
- 
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  <title>Platento | Group</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffc107a3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            margin-left: 10px;
+            text-align: left;
+            display: inline; 
+        }
+        h1{
+            display: inline-block;
+            margin-left: 20px;
+        }
+    
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        article {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 100px;
+            padding: 20px;
+            width: 1000px;
+        }
+        article h2 {
+            margin-top: 0;
+        }
+        article p {
+            margin-bottom: 0;
+        }
+        .cont img{
+            background-size: cover; /* to make the image cover the entire container */
+            display: flex; /* to make the container a flex container */
+            align-items: center; /* to vertically center the content */
+            justify-content: center;
+            height: 100vh;
+        }
+        .user2 {
+            width: 1535px;
+            height: 200px;
+            object-fit: cover;
+            display: inline;
+            
+          }
+          .user {
+            border-radius: 50%;
+            margin-left: 20px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            display: inline;
+            margin-top: 20px;
+          }
+          .temp{
+            margin: 20px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+          }
+          h3{
+            display: inline;
+          }
+          h4{
+            margin-left: 50px;
+          }
+          .btn {
+            display: inline;
+            align-items: center;
+            background: none;
+            border: 1px solid lighten(gray, 24%);
+            height: 48px;
+            padding: 0 24px 0 16px;
+            letter-spacing: .25px;
+            border-radius: 24px;
+            cursor: pointer;
+            
+            &:focus {
+              outline: none;
+            }
+            
+            .mdi {
+              margin-right: 8px;
+            }
+          }
+          
+          .btn-delete {
+            font-size: 16px;
+            color: red;
+            
+            >.mdi-delete-empty {
+              display: none;
+            }
+            
+            &:hover {
+              background-color: lighten(red, 48%);
+              
+              >.mdi-delete-empty {
+                display: block;
+              }
+              
+              >.mdi-delete {
+                display: none;
+              }
+            }
+            
+            &:focus {
+              box-shadow: 0 0 0 4px lighten(red, 40%);
+            }
+          }
+    </style>
+  
 </head>
-{% block content %}
-    <h1>{{ group.name }}</h1>
-    <p>{{ group.description }}</p>
-    {% if request.user == user.user %}
+{% if request.user.is_authenticated %}
+    {% if group.image %}
+    <img src="{{group.image.url}}" class="user2">
+    {% else %}
+    <img src="{% static 'image\STACKED.jpg' %}" class="user2">
+    {% endif %}
+    
+    <label for="id_profile_image">
+        {% if user.profile_image %}
+            <a href="{% url 'profileuser' user.user.id %}" class="username-link"><img src="{{user.profile_image.url}}" class="user"><h3 style="font-style: italic;">Mr : {{ user.user.username }}</h3></a>
+        {% else %}
+            <a href="{% url 'profileuser' user.user.id %}" class="username-link"><img src="{% static 'image\default-profile-photo.png' %}" class="user"><h3 style="font-style: italic;">Mr : {{ user.user.username }}</h3></a>
+        {% endif %}  
+        
+    </label><br><h1>Group: {{ group.name }}</h1>
+    <h4>{{ group.description }}</h4>
+    
+    {% for video in group.videos.all %}
+    <section>   
+        <article>
+    {% if video.image %}
+    <a href="{% url 'video' video.id %}" class="username-link"><img src="{{video.image.url}}" class="temp">{{ video.title }}</a>
+    {% else %}
+    <a href="{% url 'video' video.id %}" class="username-link"><img src="{% static 'image\STACKED.jpg' %}" class="temp">{{ video.title }}</a>
+    {% endif %}
+        </article>
+    </section>
+    {% empty %}
+        <li>No videos yet.</li>
+    {% endfor %}
+    </ul>
+    {%else%}
+        <h4 class="alert alert-danger">
+            You must <a href="{% url 'login' %}" class="text-dark"> Sign In </a>
+        <h4>
+   {%endif%}
+   {% if request.user == user.user %}
     <form id="delete-form" action="{% url 'group_delete' group.pk %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-delete" type="submit" onclick="return confirmDelete()">
@@ -20,14 +176,6 @@
         </button>
     </form>
     {% endif %}
-    <h2>Videos</h2>
-    <ul>
-    {% for video in group.videos.all %}
-        <li>{{ video.title }}</li>
-    {% empty %}
-        <li>No videos yet.</li>
-    {% endfor %}
-    </ul>
     </html>
     <script>
     function confirmDelete() {
@@ -38,4 +186,5 @@
         }
     }
     </script>
+
 {% endblock %}

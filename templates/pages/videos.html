@@ -107,11 +107,13 @@
                     <h1>Videos</h1>
             {% for vedio in videos%}
                 
-                        <video width="320" height="240" controls>
-                            <source src="{{ vedio.file.url }}" type="video/mp4">
-                        </video>
-                        <h5><div ><a href="{% url 'video' vedio.id %}" class="username-link">{{ vedio.title }}</a></div></h5>
-                        <hr>
+                {% if vedio.image %}
+                <img src="{{vedio.image.url}}" class="user2">
+                {% else %}
+                <img src="{% static 'image\STACKED.jpg' %}" class="user2">
+                {% endif %}
+                <h5><div ><a href="{% url 'video' vedio.id %}" class="username-link">{{ vedio.title }}</a></div></h5>
+                <hr>
                 
                 {%endfor%}
            
